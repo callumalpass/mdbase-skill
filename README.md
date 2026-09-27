@@ -7,8 +7,11 @@ An [Agent Skill](https://agentskills.io) that teaches AI coding assistants to wo
 mdbase turns a folder of markdown files into a lightweight, typed database:
 
 - **`mdbase.yaml`** at the root marks a folder as a collection
-- **`_types/`** contains type definitions with field schemas
-- **`.md` files** are records with YAML frontmatter validated against their type
+- **`_types/`** contains type files that describe records with JSON Schema, plus defaults, links, uniqueness, and managed fields
+- **`.md` files** are records with YAML frontmatter validated against their types
+- **CEL expressions** query and filter records
+
+The skill follows mdbase spec v0.3. It can also work with v0.2 collections and migrate them.
 
 No build step, no server, no dependencies. Just markdown files and an AI assistant that understands the schema.
 
@@ -45,9 +48,10 @@ Once installed, the skill activates automatically when your AI assistant detects
 
 - **Initialize** a new collection with types
 - **Create** records with proper frontmatter
-- **Query** records using the expression language
+- **Query** records with CEL expressions
 - **Validate** the collection against type schemas
 - **Refactor** types and update all references
+- **Migrate** a v0.2 collection to v0.3
 
 ## File structure
 
@@ -55,7 +59,9 @@ Once installed, the skill activates automatically when your AI assistant detects
 mdbase-skill/
 ├── SKILL.md              # Agent Skills entry point (instructions)
 ├── references/
-│   └── spec.md           # Full mdbase specification (loaded on demand)
+│   └── spec.md           # mdbase v0.3 reference (loaded on demand)
+├── scripts/
+│   └── build-adapters.mjs  # Generates adapters/ from SKILL.md and references/spec.md
 ├── adapters/
 │   ├── windsurf.md       # Self-contained adapter for Windsurf
 │   ├── amazonq.md        # Self-contained adapter for Amazon Q
